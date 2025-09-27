@@ -78,7 +78,7 @@ pipeline {
                             sh 'npm run test --passWithNoTests'
                             
                         }
-                        junit allowEmptyResults: true, testResults: 'reports/junit/js-test-results.xml'
+                        junit allowEmptyResults: true, testResults: 'junit.xml'
 
                     }
                 }
