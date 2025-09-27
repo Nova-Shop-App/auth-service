@@ -67,7 +67,9 @@ pipeline {
                         script {
                             echo "Running Tests"
                             sh 'npm run test --passWithNoTests'
+                            
                         }
+                        junit allowEmptyResults: true, testResults: '**/test-results.xml'
                     }
                 }
                 stage('Build & Push Auth Service') {
