@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
         nodejs 'nodejs-18-19-1'
-        docker 'docker-latest'
+        dockerTool "docker-latest"
     }
 
 
