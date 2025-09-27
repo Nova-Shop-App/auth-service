@@ -16,11 +16,18 @@ pipeline {
                     }
                 }
 
-                stage('Install Dependencies') {
+                stage('Installing Dependencies') {
                     steps {
                         script {
                             echo "Installing Dependencies"
                             sh 'npm install --no-audit'
+                        }
+                    }
+                }
+                stage('NPM Dependencies Audit') {
+                    steps {
+                        script {
+                            sh 'npm audit --audit-level=critical'
                         }
                     }
                 }
