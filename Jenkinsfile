@@ -48,6 +48,10 @@ pipeline {
                                                     pattern: 'dependency-check-report.xml',
                                                     stopBuild: true
                                 
+                                junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
+
+
+
                                 publishHTML(
                                     allowMissing: true,
                                     alwaysLinkToLastBuild: true,
@@ -57,6 +61,7 @@ pipeline {
                                     reportName: 'Dependency Check HTML Report',
                                     useWrapperFileDirectly: true
                                 )
+
                             }
                         }
                     }
@@ -69,7 +74,8 @@ pipeline {
                             sh 'npm run test --passWithNoTests'
                             
                         }
-                        junit allowEmptyResults: true,keepProperties: true, testResults: 'dependency-check-junit.xml'
+                        junit allowEmptyResults: true, testResults: '**/test-results.xml'
+
                     }
                 }
                 stage('Build & Push Auth Service') {
