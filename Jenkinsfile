@@ -6,12 +6,29 @@ pipeline {
 
 
     stages {
-         stage('Get Version') {
+                stage('Get Version') {
                     steps {
                         script {
                               echo "Getting Version"
                               def version = sh(script: "node -p 'require(\"./package.json\").version'", returnStdout: true).trim()
                               echo "Version: ${version}"
+                        }
+                    }
+                }
+
+                stage('Install Dependencies') {
+                    steps {
+                        script {
+                            echo "Installing Dependencies"
+                            sh 'npm install --no-audit'
+                        }
+                    }
+                }
+                stage('Run Tests') {
+                    steps {
+                        script {
+                            echo "Running Tests"
+                            sh 'npm run test --passWithNoTests'
                         }
                     }
                 }
