@@ -69,7 +69,7 @@ pipeline {
                             sh 'npm run test --passWithNoTests'
                             
                         }
-                        junit allowEmptyResults: true, testResults: '**/test-results.xml'
+                        junit allowEmptyResults: true,keepProperties: true, testResults: 'dependency-check-junit.xml'
                     }
                 }
                 stage('Build & Push Auth Service') {
