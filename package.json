@@ -1,0 +1,38 @@
+{
+  "name": "auth-service",
+  "version": "1.0.4",
+  "description": "This a Authentication Service For E-Commerce App",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "echo 'No build step required'",
+    "lint": "eslint .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "preversion": "npm test",
+    "postversion": "git tag -d v%npm_package_version% 2>nul & git tag v%npm_package_version% & git push origin v%npm_package_version%"
+  },
+  "type": "module",
+  "author": "Abdelkader Bouchouicha",
+  "license": "ISC",
+  "dependencies": {
+    "auth-service": "file:",
+    "axios": "^1.11.0",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.1",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "babel-jest": "^30.0.2",
+    "jest": "^30.0.2",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
+  }
+}
