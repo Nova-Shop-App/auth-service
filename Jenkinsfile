@@ -52,7 +52,7 @@ pipeline {
                                                     pattern: 'dependency-check-report.xml',
                                                     stopBuild: true
                                 
-                                junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
+                                // junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
 
 
 
@@ -78,7 +78,7 @@ pipeline {
                             sh 'npm run test --passWithNoTests'
                             
                         }
-                        junit allowEmptyResults: true, testResults: 'junit.xml'
+                        junit(allowEmptyResults: true, testResults: 'junit.xml')
 
                     }
                 }
