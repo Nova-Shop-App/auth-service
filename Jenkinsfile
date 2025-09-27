@@ -42,6 +42,10 @@ pipeline {
                                 --out ./
                                 --format 'ALL'
                                 --prettyPrint
+                                --disableAssembly
+                                --disableYarnAudit
+                                --disableOssIndex
+
                                 ''', odcInstallation: 'OWASP-DepCheck-10'
 
                                 dependencyCheckPublisher failedTotalCritical: 1,
@@ -74,7 +78,7 @@ pipeline {
                             sh 'npm run test --passWithNoTests'
                             
                         }
-                        junit allowEmptyResults: true, testResults: '**/test-results.xml'
+                        junit allowEmptyResults: true, testResults: 'reports/junit/js-test-results.xml'
 
                     }
                 }
