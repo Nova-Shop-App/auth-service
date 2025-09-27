@@ -2,6 +2,7 @@ pipeline {
     agent any
     tools {
         nodejs 'nodejs-18-19-1'
+        docker 'docker-latest'
     }
 
 
@@ -43,6 +44,7 @@ pipeline {
                     steps {
                         script {
                            echo "Building and Pushing Auth Service"
+                           sh "docker --version"
                         }
                     }
                 }
