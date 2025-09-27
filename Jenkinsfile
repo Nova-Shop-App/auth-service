@@ -34,11 +34,12 @@ pipeline {
                 }
                 stage('OWASP Dependency Check') {
                     steps {
-                    dependencyCheck additionalArguments: '''--scan \\\'./\\\' 
-                        --out \\\'./\\\' 
-                        --format \\\'ALL\\\'
-                        --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'                   
-                     }
+                     dependencyCheck additionalArguments: '''
+                        --scan \'./\' 
+                        --out \'./\' 
+                        --format \'ALL\'
+                        --prettyPrint''' , odcInstallation: 'OWASP-DepCheck-10'
+                    }
                 }
                 stage('Run Tests') {
                     steps {
