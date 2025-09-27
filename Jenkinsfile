@@ -8,8 +8,7 @@ pipeline {
     }
 
     stages {
-        stage('Build, Test & Deploy Services') {
-             stage('Get Version') {
+         stage('Get Version') {
                     steps {
                         script {
                               def version = sh(script: "node -p 'require(\"./package.json\").version'", returnStdout: true).trim()
@@ -31,7 +30,6 @@ pipeline {
                         }
                     }
                 }
-        }
     }
 }
 
