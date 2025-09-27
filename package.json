@@ -1,6 +1,6 @@
 {
   "name": "auth-service",
-  "version": "1.0.4",
+  "version": "1.0.0",
   "description": "This a Authentication Service For E-Commerce App",
   "main": "index.js",
   "scripts": {
