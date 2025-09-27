@@ -1,13 +1,17 @@
 pipeline {
     agent any
+    tools {
+        nodejs 'nodejs-18-19-1'
+    }
 
 
     stages {
          stage('Get Version') {
                     steps {
                         script {
-                            //   def version = sh(script: "node -p 'require(\"./package.json\").version'", returnStdout: true).trim()
                               echo "Getting Version"
+                              def version = sh(script: "node -p 'require(\"./package.json\").version'", returnStdout: true).trim()
+                              echo "Version: ${version}"
                         }
                     }
                 }
