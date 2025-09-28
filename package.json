@@ -6,16 +6,12 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "coverage": "jest --coverage --reporters=default --reporters=jest-junit",
+    "coverage": "jest --coverage",
     "build": "echo 'No build step required'",
     "lint": "eslint .",
     "test": "jest --reporters=default --reporters=jest-junit",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "jest-junit": {
-      "outputDirectory": "./reports/junit",
-      "outputName": "js-test-results.xml"
-    },
     "preversion": "npm test",
     "postversion": "git tag -d v%npm_package_version% 2>nul & git tag v%npm_package_version% & git push origin v%npm_package_version%"
   },

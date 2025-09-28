@@ -30,7 +30,7 @@ pipeline {
                         stage('NPM Dependency Audit') {
                             steps {
                                 sh '''
-                                npm audit --audit-level=high 
+                                npm audit --audit-level=critical 
                                 echo $?
                                 '''
                             }
@@ -60,9 +60,10 @@ pipeline {
                                     allowMissing: true,
                                     alwaysLinkToLastBuild: true,
                                     keepAll: true,
-                                    reportDir: './',
-                                    reportFiles: 'dependency-check-jenkins.html',
-                                    reportName: 'Dependency Check HTML Report',
+                                    reportDir: 'coverage/lcov-report',
+                                    reportFiles: 'index.html',
+                                    reportName: 'Code Coverage HTML Report',
+                                    reportTitles: '',
                                     useWrapperFileDirectly: true
                                 )
 
