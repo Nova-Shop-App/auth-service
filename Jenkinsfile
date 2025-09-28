@@ -64,8 +64,7 @@ pipeline {
                 stage('Run Tests') {
                     steps {
                         script {
-                            echo "Running Tests"
-                            sh 'npm run test --passWithNoTests'
+                            sh 'npm run test'
                             
                         }
                         junit(allowEmptyResults: true, testResults: 'junit.xml')
@@ -75,31 +74,25 @@ pipeline {
                 stage('Code Coverage') {
                     steps {
                         script {
-                           echo "Code Coverage"
                            sh "npm run coverage"
                         }
                     }
                 }
                 stage('SAST - SonarQube') {
-                    steps {
-                        script {
-                           echo "SonarQube Scan and Analysis"
-                           echo "SONAR_SCANNER_HOME: $SONAR_SCANNER_HOME"
-                           sh ''' 
-                            $SONAR_SCANNER_HOME/bin/sonar-scanner \
-                                -Dsonar.projectKey=NovaShop-solar-system \
-                                -Dsonar.sources=./utils/handlePassword.js \
-                                -Dsonar.host.url=http://20.51.130.232:9000 \
-                                -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info \
-                                -Dsonar.token=sqp_1947608d3dc2023548bad8cbe5a411bf2a8cf3c9
-                           '''
+                   steps {
+                        withSonarQubeEnv('sonar-qube-server') {
+                            sh '''
+                                $SONAR_SCANNER_HOME/bin/sonar-scanner \
+                                -Dsonar.projectKey=Solar-System-Project \
+                                -Dsonar.sources=. \
+                                -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+                            '''
                         }
                     }
                 }
                 stage('Build & Push Auth Service') {
                     steps {
                         script {
-                           echo "Building and Pushing Auth Service"
                            sh "docker --version"
                         }
                     }
