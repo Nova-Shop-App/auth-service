@@ -96,7 +96,7 @@ pipeline {
         always {
             junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
             junit(allowEmptyResults: true,keepProperties: true, testResults: 'junit.xml')
-            junit(allowEmptyResults: true,keepProperties: true, testResults: 'coverage/clover.xml')
+            publishCoverage adapters: [cloverAdapter('coverage/clover.xml')], sourceFileResolver: sourceFiles('STORE_LAST_BUILD')
             publishHTML(allowMissing: true,alwaysLinkToLastBuild: true,keepAll: true,reportDir: './',reportFiles: 'dependency-check-jenkins.html',reportName: 'Dependency Check HTML Report',reportTitles: '',useWrapperFileDirectly: true )
             publishHTML(allowMissing: true,alwaysLinkToLastBuild: true,keepAll: true,reportDir: 'coverage/lcov-report',reportFiles: 'index.html',reportName: 'Code Coverage HTML Report',reportTitles: '',useWrapperFileDirectly: true)
         }
