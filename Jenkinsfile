@@ -60,9 +60,9 @@ pipeline {
                                     allowMissing: true,
                                     alwaysLinkToLastBuild: true,
                                     keepAll: true,
-                                    reportDir: 'coverage/lcov-report',
-                                    reportFiles: 'index.html',
-                                    reportName: 'Code Coverage HTML Report',
+                                    reportDir: './',
+                                    reportFiles: 'dependency-check-jenkins.html',
+                                    reportName: 'Dependency Check HTML Report',
                                     reportTitles: '',
                                     useWrapperFileDirectly: true
                                 )
@@ -89,6 +89,17 @@ pipeline {
                            echo "Code Coverage"
                            sh "npm run coverage"
                         }
+                        publishHTML(
+                                    allowMissing: true,
+                                    alwaysLinkToLastBuild: true,
+                                    keepAll: true,
+                                    reportDir: 'coverage/lcov-report',
+                                    reportFiles: 'index.html',
+                                    reportName: 'Code Coverage HTML Report',
+                                    reportTitles: '',
+                                    useWrapperFileDirectly: true
+                                )
+
                     }
                 }
                 stage('Build & Push Auth Service') {
