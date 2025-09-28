@@ -37,16 +37,16 @@ pipeline {
                         }
                         stage('OWASP Dependency Check') {
                             steps {
-                                dependencyCheck additionalArguments: '''
-                                --scan ./
-                                --out ./
-                                --format 'ALL'
-                                --prettyPrint
-                                --disableAssembly
-                                --disableYarnAudit
-                                --disableOssIndex
+                                withCredentials([string(credentialsId: 'NVD_API_KEY', variable: 'NVD_API_KEY')]) {
+                                    dependencyCheck additionalArguments: """
+                                        --scan './' 
+                                        --out './' 
+                                        --format ALL
+                                        --nvdApiKey ${NVD_API_KEY}
+                                        --prettyPrint
+                                    """, odcInstallation: 'OWASP-DepCheck-10'
+                            }
 
-                                ''', odcInstallation: 'OWASP-DepCheck-10'
 
                                 dependencyCheckPublisher failedTotalCritical: 1,
                                                     pattern: 'dependency-check-report.xml',
