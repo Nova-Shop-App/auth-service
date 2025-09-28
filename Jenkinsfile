@@ -4,6 +4,9 @@ pipeline {
         nodejs 'nodejs-18-19-1'
         dockerTool "docker-latest"
     }
+    environment {
+        SONAR_SCANNER_HOME = tool 'sonarqube-scanner-720'
+    }
 
 
     stages {
@@ -73,6 +76,21 @@ pipeline {
                         script {
                            echo "Code Coverage"
                            sh "npm run coverage"
+                        }
+                    }
+                }
+                stage('SAST - SonarQube') {
+                    steps {
+                        script {
+                           echo "SonarQube Scan and Analysis"
+                           echo "SONAR_SCANNER_HOME: $SONAR_SCANNER_HOME"
+                           sh ''' 
+                            $SONAR_SCANNER_HOME/bin/sonar-scanner \
+                                -Dsonar.projectKey=NovaShop-solar-system \
+                                -Dsonar.sources=index.js \
+                                -Dsonar.host.url=http://20.51.130.232:9000 \
+                                -Dsonar.token=sqp_1947608d3dc2023548bad8cbe5a411bf2a8cf3c9
+                           '''
                         }
                     }
                 }
