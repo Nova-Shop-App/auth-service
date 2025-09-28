@@ -88,7 +88,7 @@ pipeline {
                            sh ''' 
                             $SONAR_SCANNER_HOME/bin/sonar-scanner \
                                 -Dsonar.projectKey=NovaShop-solar-system \
-                                -Dsonar.sources=.utils/handlePassword.js \
+                                -Dsonar.sources=./utils/handlePassword.js \
                                 -Dsonar.host.url=http://20.51.130.232:9000 \
                                 -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info \
                                 -Dsonar.token=sqp_1947608d3dc2023548bad8cbe5a411bf2a8cf3c9
