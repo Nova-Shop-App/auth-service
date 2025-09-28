@@ -96,7 +96,7 @@ pipeline {
         always {
             junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
             junit(allowEmptyResults: true,keepProperties: true, testResults: 'junit.xml')
-            clover(cloverReportDir:'coverage', cloverReportFileName: 'clover.xml', failingTarget: [], healthyTarget: [conditionalCoverage: 80, methodCoverage: 70, statementCoverage: 80], unhealthyTarget: [])
+            clover(cloverReportDir: 'coverage',cloverReportFileName: 'clover.xml',healthyTarget: [methodCoverage: 70, conditionalCoverage: 80, statementCoverage: 80],unhealthyTarget: [methodCoverage: 50, conditionalCoverage: 50, statementCoverage: 50],failingTarget: [methodCoverage: 20, conditionalCoverage: 20, statementCoverage: 20])
             publishHTML(allowMissing: true,alwaysLinkToLastBuild: true,keepAll: true,reportDir: './',reportFiles: 'dependency-check-jenkins.html',reportName: 'Dependency Check HTML Report',reportTitles: '',useWrapperFileDirectly: true )
             publishHTML(allowMissing: true,alwaysLinkToLastBuild: true,keepAll: true,reportDir: 'coverage/lcov-report',reportFiles: 'index.html',reportName: 'Code Coverage HTML Report',reportTitles: '',useWrapperFileDirectly: true)
         }
