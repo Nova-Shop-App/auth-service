@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "coverage": "jest --coverage --reporters=default --reporters=jest-junit",
     "build": "echo 'No build step required'",
     "lint": "eslint .",
     "test": "jest --reporters=default --reporters=jest-junit",
@@ -21,6 +22,10 @@
   "type": "module",
   "author": "Abdelkader Bouchouicha",
   "license": "ISC",
+  "nyc": {
+    "check-coverage": true,
+    "lines": 90
+  },
   "dependencies": {
     "auth-service": "file:",
     "axios": "^1.11.0",

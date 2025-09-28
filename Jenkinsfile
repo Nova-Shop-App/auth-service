@@ -52,7 +52,7 @@ pipeline {
                                                     pattern: 'dependency-check-report.xml',
                                                     stopBuild: true
                                 
-                                // junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
+                                junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
 
 
 
@@ -80,6 +80,14 @@ pipeline {
                         }
                         junit(allowEmptyResults: true, testResults: 'junit.xml')
 
+                    }
+                }
+                stage('Code Coverage') {
+                    steps {
+                        script {
+                           echo "Code Coverage"
+                           sh "npm run coverage"
+                        }
                     }
                 }
                 stage('Build & Push Auth Service') {

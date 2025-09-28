@@ -7,6 +7,4 @@ describe("User Service Unit Tests", () => {
     expect(hashedPassword).not.toBe(password);
     expect(hashedPassword.length).toBeGreaterThan(10);
   });
-
-  // Add other tests here...
 });
