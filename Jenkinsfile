@@ -8,7 +8,7 @@ pipeline {
 
         JWT_SECRET="your_jwt_secret_key"
         JWT_EXPIRY="1h"
-        // Define SonarQube scanner tool
+
         SONAR_SCANNER_HOME = tool 'sonarqube-scanner-720'
     }
 
@@ -94,7 +94,9 @@ pipeline {
                 stage('Build & Push Auth Service') {
                     steps {
                         script {
-                           sh "docker --version"
+                           sh "building Docker Image "
+                           sh "docker build -t auth-service:latest ."
+                           sh "docker images"
                         }
                     }
                 }
