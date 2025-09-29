@@ -2,7 +2,6 @@ pipeline {
     agent any
     tools {
         nodejs 'nodejs-18-19-1'
-        dockerTool "docker-latest"
     }
     environment {
 
@@ -96,7 +95,29 @@ pipeline {
                     steps {
                         script {
                            sh "docker build -t auth-service:latest ."
-                           sh "docker images"
+                        }
+                    }
+                }
+
+                stage('Trivy Vulnerability Scanner') {
+                    steps {
+                        script {
+                            sh '''
+                                trivy image \
+                                    --config /var/lib/jenkins/trivy/trivy.yaml \ 
+                                      auth-service:latest \
+                                    --severity LOW,MEDIUM \
+                                    --exit-code 0 \
+                                    --quiet \
+                                    --format json -o trivy--image-MEDIUM-results.json 
+                                trivy image \
+                                    --config /var/lib/jenkins/trivy/trivy.yaml \ 
+                                      auth-service:latest \
+                                    --severity HIGH,CRITICAL \
+                                    --exit-code 1 \
+                                    --quiet \
+                                    --format json -o trivy--image-CRITICAL-results.json 
+                            '''
                         }
                     }
                 }
@@ -110,10 +131,38 @@ pipeline {
     }
     post {
         always {
+            // Convert JSON to HTML and JUnit XML
+            sh '''
+                trivy convert --format template \
+                --template "/usr/local/share/trivy/templates/html.tpl" \
+                --output trivy-image-medium.html trivy-image-medium.json
+
+
+                trivy convert --format template \
+                --template "/usr/local/share/trivy/templates/html.tpl" \
+                --output trivy-image-critical.html trivy-image-critical.json
+
+
+                trivy convert --format template \
+                --template "/usr/local/share/trivy/templates/junit.tpl" \
+                --output trivy-image-medium.xml trivy-image-medium.json
+
+
+                trivy convert --format template \
+                --template "/usr/local/share/trivy/templates/junit.tpl" \
+                --output trivy-image-critical.xml trivy-image-critical.json
+            '''
+
             junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
             junit(allowEmptyResults: true,keepProperties: true, testResults: 'junit.xml')
+            junit allowEmptyResults: true, testResults: 'trivy-image-*.xml'
+            
             clover(cloverReportDir: 'coverage',cloverReportFileName: 'clover.xml',healthyTarget: [methodCoverage: 70, conditionalCoverage: 80, statementCoverage: 80],unhealthyTarget: [methodCoverage: 50, conditionalCoverage: 50, statementCoverage: 50],failingTarget: [methodCoverage: 20, conditionalCoverage: 20, statementCoverage: 20])
             publishHTML(allowMissing: true,alwaysLinkToLastBuild: true,keepAll: true,reportDir: './',reportFiles: 'dependency-check-jenkins.html',reportName: 'Dependency Check HTML Report',reportTitles: '',useWrapperFileDirectly: true )
+            
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,reportDir: '.', reportFiles: 'trivy-image-critical.html',reportName: 'Critical Vulnerabilities', useWrapperFileDirectly: true])
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,reportDir: '.', reportFiles: 'trivy-image-medium.html',reportName: 'Medium/Low Vulnerabilities', useWrapperFileDirectly: true])
+
         }
     }
 }
