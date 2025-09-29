@@ -91,11 +91,10 @@ pipeline {
                         }
                     }
                 }
-                
+
                 stage('Build & Push Auth Service') {
                     steps {
                         script {
-                           sh "building Docker Image "
                            sh "docker build -t auth-service:latest ."
                            sh "docker images"
                         }
