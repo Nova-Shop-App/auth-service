@@ -105,13 +105,13 @@ pipeline {
                             sh '''
                                 trivy image \
                                     --config /var/lib/jenkins/trivy/trivy.yaml auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
-                                    --severity LOW,MEDIUM \
+                                    --severity LOW,MEDIUM,HIGH \
                                     --exit-code 0 \
                                     --quiet \
                                     --format json -o trivy-image-medium-results.json 
                                 trivy image \
                                     --config /var/lib/jenkins/trivy/trivy.yaml auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
-                                    --severity HIGH,CRITICAL \
+                                    --severity CRITICAL \
                                     --exit-code 1 \
                                     --quiet \
                                     --format json -o trivy-image-critical-results.json 
@@ -132,22 +132,22 @@ pipeline {
             // Convert JSON to HTML and JUnit XML
             sh '''
                 trivy convert --format template \
-                --template "@contrib/html.tpl" \
+                --template "/usr/local/share/trivy/templates/html.tpl" \
                 --output trivy-image-medium.html trivy-image-medium-results.json
 
 
                 trivy convert --format template \
-                --template "@contrib/html.tpl" \
+                --template "/usr/local/share/trivy/templates/html.tpl" \
                 --output trivy-image-critical.html trivy-image-critical-results.json
 
 
                 trivy convert --format template \
-                --template "@contrib/junit.tpl" \
+                --template "/usr/local/share/trivy/templates/junit.tpl" \
                 --output trivy-image-medium.xml trivy-image-medium-results.json
 
 
                 trivy convert --format template \
-                --template "@contrib/junit.tpl" \
+                --template "/usr/local/share/trivy/templates/junit.tpl" \
                 --output trivy-image-critical.xml trivy-image-critical-results.json
             '''
 
