@@ -82,12 +82,7 @@ pipeline {
                    steps {
                         withSonarQubeEnv('sonar-qube-server') {
                             sh '''
-                                $SONAR_SCANNER_HOME/bin/sonar-scanner \
-                                -Dsonar.projectKey=NovaShop-Project \
-                                -Dsonar.sources=. \
-                                -Dsonar.exclusions=node_modules/**,test/**,coverage/** \
-
-                                -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+                                $SONAR_SCANNER_HOME/bin/sonar-scanner
                             '''
                         }
                     }
