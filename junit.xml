@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" errors="0" time="0.693">
-  <testsuite name="User Service" errors="0" failures="0" skipped="0" timestamp="2025-09-29T20:17:39" time="0.602" tests="2">
-    <testcase classname="User Service should hash password correctly" name="User Service should hash password correctly" time="0.005">
+<testsuites name="jest tests" tests="5" failures="0" errors="0" time="1.33">
+  <testsuite name="User Service" errors="0" failures="0" skipped="0" timestamp="2025-09-29T20:28:08" time="0.882" tests="2">
+    <testcase classname="User Service should hash password correctly" name="User Service should hash password correctly" time="0.009">
     </testcase>
     <testcase classname="User Service should verify password correctly" name="User Service should verify password correctly" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="JWT Token Functions" errors="0" failures="0" skipped="0" timestamp="2025-09-29T20:28:08" time="0.93" tests="3">
+    <testcase classname="JWT Token Functions should generate a valid JWT token" name="JWT Token Functions should generate a valid JWT token" time="0.012">
+    </testcase>
+    <testcase classname="JWT Token Functions should verify token and return the correct payload" name="JWT Token Functions should verify token and return the correct payload" time="0.003">
+    </testcase>
+    <testcase classname="JWT Token Functions should throw error if token is invalid" name="JWT Token Functions should throw error if token is invalid" time="0.008">
     </testcase>
   </testsuite>
 </testsuites>

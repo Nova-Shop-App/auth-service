@@ -5,6 +5,10 @@ pipeline {
         dockerTool "docker-latest"
     }
     environment {
+
+        JWT_SECRET=your_jwt_secret_key
+        JWT_EXPIRY=1h
+        // Define SonarQube scanner tool
         SONAR_SCANNER_HOME = tool 'sonarqube-scanner-720'
     }
 
