@@ -132,28 +132,29 @@ pipeline {
             // Convert JSON to HTML and JUnit XML
             sh '''
                 trivy convert --format template \
-                --template "/usr/local/share/trivy/templates/html.tpl" \
+                --template "@contrib/html.tpl" \
                 --output trivy-image-medium.html trivy-image-medium-results.json
 
 
                 trivy convert --format template \
-                --template "/usr/local/share/trivy/templates/html.tpl" \
+                --template "@contrib/html.tpl" \
                 --output trivy-image-critical.html trivy-image-critical-results.json
 
 
                 trivy convert --format template \
-                --template "/usr/local/share/trivy/templates/junit.tpl" \
+                --template "@contrib/junit.tpl" \
                 --output trivy-image-medium.xml trivy-image-medium-results.json
 
 
                 trivy convert --format template \
-                --template "/usr/local/share/trivy/templates/junit.tpl" \
+                --template "@contrib/junit.tpl" \
                 --output trivy-image-critical.xml trivy-image-critical-results.json
             '''
 
             junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
             junit(allowEmptyResults: true,keepProperties: true, testResults: 'junit.xml')
-            junit allowEmptyResults: true, testResults: 'trivy-image-*.xml'
+            junit allowEmptyResults: true, testResults: 'trivy-image-medium.xml'
+            junit allowEmptyResults: true, testResults: 'trivy-image-critical.xml'
             
             clover(cloverReportDir: 'coverage',cloverReportFileName: 'clover.xml',healthyTarget: [methodCoverage: 70, conditionalCoverage: 80, statementCoverage: 80],unhealthyTarget: [methodCoverage: 50, conditionalCoverage: 50, statementCoverage: 50],failingTarget: [methodCoverage: 20, conditionalCoverage: 20, statementCoverage: 20])
             publishHTML(allowMissing: true,alwaysLinkToLastBuild: true,keepAll: true,reportDir: './',reportFiles: 'dependency-check-jenkins.html',reportName: 'Dependency Check HTML Report',reportTitles: '',useWrapperFileDirectly: true )
