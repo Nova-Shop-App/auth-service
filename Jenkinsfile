@@ -151,6 +151,7 @@ pipeline {
                 --output trivy-image-critical.xml trivy-image-critical-results.json
             '''
 
+
             junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
             junit(allowEmptyResults: true,keepProperties: true, testResults: 'junit.xml')
             junit allowEmptyResults: true, testResults: 'trivy-image-medium.xml'
