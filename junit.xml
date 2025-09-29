@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" errors="0" time="2.456">
-  <testsuite name="User Service" errors="0" failures="0" skipped="0" timestamp="2025-09-28T20:01:23" time="2.041" tests="2">
-    <testcase classname="User Service should hash password correctly" name="User Service should hash password correctly" time="0.004">
+<testsuites name="jest tests" tests="2" failures="0" errors="0" time="0.693">
+  <testsuite name="User Service" errors="0" failures="0" skipped="0" timestamp="2025-09-29T20:17:39" time="0.602" tests="2">
+    <testcase classname="User Service should hash password correctly" name="User Service should hash password correctly" time="0.005">
     </testcase>
     <testcase classname="User Service should verify password correctly" name="User Service should verify password correctly" time="0.001">
     </testcase>
