@@ -108,13 +108,13 @@ pipeline {
                                     --severity LOW,MEDIUM \
                                     --exit-code 0 \
                                     --quiet \
-                                    --format json -o trivy--image-MEDIUM-results.json 
+                                    --format json -o trivy--image-medium-results.json 
                                 trivy image \
                                     --config /var/lib/jenkins/trivy/trivy.yaml auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
                                     --severity HIGH,CRITICAL \
                                     --exit-code 1 \
                                     --quiet \
-                                    --format json -o trivy--image-CRITICAL-results.json 
+                                    --format json -o trivy--image-critical-results.json 
                             '''
                         }
                     }
