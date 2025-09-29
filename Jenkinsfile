@@ -84,7 +84,7 @@ pipeline {
                             sh '''
                                 $SONAR_SCANNER_HOME/bin/sonar-scanner \
                                 -Dsonar.projectKey=Solar-System-Project \
-                                -Dsonar.sources=./utils/handlePassword.js \
+                                -Dsonar.sources=. \
                                 -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
                             '''
                         }
