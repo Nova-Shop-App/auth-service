@@ -83,7 +83,7 @@ pipeline {
                         withSonarQubeEnv('sonar-qube-server') {
                             sh '''
                                 $SONAR_SCANNER_HOME/bin/sonar-scanner \
-                                -Dsonar.projectKey=Solar-System-Project \
+                                -Dsonar.projectKey=NovaShop-Project \
                                 -Dsonar.sources=. \
                                 -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
                             '''
