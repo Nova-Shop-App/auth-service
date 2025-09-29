@@ -132,22 +132,22 @@ pipeline {
             // Convert JSON to HTML and JUnit XML
             sh '''
                 trivy convert --format template \
-                --template "/usr/local/share/trivy/templates/html.tpl" \
+                --template "@/usr/local/share/trivy/templates/html.tpl" \
                 --output trivy-image-medium.html trivy-image-medium-results.json
 
 
                 trivy convert --format template \
-                --template "/usr/local/share/trivy/templates/html.tpl" \
+                --template "@/usr/local/share/trivy/templates/html.tpl" \
                 --output trivy-image-critical.html trivy-image-critical-results.json
 
 
                 trivy convert --format template \
-                --template "/usr/local/share/trivy/templates/junit.tpl" \
+                --template "@/usr/local/share/trivy/templates/junit.tpl" \
                 --output trivy-image-medium.xml trivy-image-medium-results.json
 
 
                 trivy convert --format template \
-                --template "/usr/local/share/trivy/templates/junit.tpl" \
+                --template "@/usr/local/share/trivy/templates/junit.tpl" \
                 --output trivy-image-critical.xml trivy-image-critical-results.json
             '''
 
