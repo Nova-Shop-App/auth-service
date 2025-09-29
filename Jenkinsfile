@@ -84,7 +84,7 @@ pipeline {
                             sh '''
                                 $SONAR_SCANNER_HOME/bin/sonar-scanner \
                                 -Dsonar.projectKey=NovaShop-Project \
-                                -Dsonar.sources=. \
+                                -Dsonar.sources=index.js \
                                 -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
                             '''
                         }
