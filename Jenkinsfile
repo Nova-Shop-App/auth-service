@@ -108,13 +108,13 @@ pipeline {
                                     --severity LOW,MEDIUM \
                                     --exit-code 0 \
                                     --quiet \
-                                    --format json -o trivy--image-medium-results.json 
+                                    --format json -o trivy-image-medium-results.json 
                                 trivy image \
                                     --config /var/lib/jenkins/trivy/trivy.yaml auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
                                     --severity HIGH,CRITICAL \
                                     --exit-code 1 \
                                     --quiet \
-                                    --format json -o trivy--image-critical-results.json 
+                                    --format json -o trivy-image-critical-results.json 
                             '''
                         }
                     }
@@ -133,22 +133,22 @@ pipeline {
             sh '''
                 trivy convert --format template \
                 --template "/usr/local/share/trivy/templates/html.tpl" \
-                --output trivy-image-medium.html trivy-image-medium.json
+                --output trivy-image-medium.html trivy-image-medium-results.json
 
 
                 trivy convert --format template \
                 --template "/usr/local/share/trivy/templates/html.tpl" \
-                --output trivy-image-critical.html trivy-image-critical.json
+                --output trivy-image-critical.html trivy-image-critical-results.json
 
 
                 trivy convert --format template \
                 --template "/usr/local/share/trivy/templates/junit.tpl" \
-                --output trivy-image-medium.xml trivy-image-medium.json
+                --output trivy-image-medium.xml trivy-image-medium-results.json
 
 
                 trivy convert --format template \
                 --template "/usr/local/share/trivy/templates/junit.tpl" \
-                --output trivy-image-critical.xml trivy-image-critical.json
+                --output trivy-image-critical.xml trivy-image-critical-results.json
             '''
 
             junit(allowEmptyResults: true,keepProperties: true,testResults: 'dependency-check-junit.xml')
