@@ -50,6 +50,7 @@ pipeline {
                                         --format ALL
                                         --nvdApiKey ${NVD_API_KEY}
                                         --disableYarnAudit
+                                        --disableAssembly
                                         --prettyPrint
                                     """, odcInstallation: 'OWASP-DepCheck-10'
                             }
