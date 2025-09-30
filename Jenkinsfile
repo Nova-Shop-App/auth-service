@@ -94,7 +94,7 @@ pipeline {
                 stage('Build & Push Auth Service') {
                     steps {
                         script {
-                           sh "docker build -t auth-service:latest ."
+                           sh "docker build -t abdelkader97/auth-service:latest ."
                         }
                     }
                 }
@@ -104,13 +104,13 @@ pipeline {
                         script {
                             sh '''
                                 trivy image \
-                                    --config /var/lib/jenkins/trivy/trivy.yaml auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
+                                    --config /var/lib/jenkins/trivy/trivy.yaml abdelkader97/auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
                                     --severity LOW,MEDIUM,HIGH \
                                     --exit-code 0 \
                                     --quiet \
                                     --format json -o trivy-image-medium-results.json 
                                 trivy image \
-                                    --config /var/lib/jenkins/trivy/trivy.yaml auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
+                                    --config /var/lib/jenkins/trivy/trivy.yaml abdelkader97/auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
                                     --severity CRITICAL \
                                     --exit-code 1 \
                                     --quiet \
@@ -119,6 +119,17 @@ pipeline {
                         }
                     }
                 }
+                stage('Push Docker Image') {
+                    steps {
+                        withDockerRegistry(credentialsId: 'docker-hub-credentials', url: '') {
+                            sh 'docker push abdelkader97/auth-service:latest'
+                        }
+                    }
+                }
+            
+
+
+
                 stage('Deploy Auth Service') {
                     steps {
                         script {
