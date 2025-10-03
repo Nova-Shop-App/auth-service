@@ -136,7 +136,7 @@ pipeline {
                         script {
                             sshagent(['azure-dev-deploy-vm']) {
                                 sh '''
-                                ssh -o StrictHostKeyChecking=no aek@172.172.224.233 "cat /etc/os-release"
+                                ssh -o StrictHostKeyChecking=no aek@172.172.224.233 "sudo docker ps"
                                 '''
                         }
 
