@@ -104,7 +104,7 @@ pipeline {
                 stage('Build  Auth Service') {
                     steps {
                         script {
-                           sh "docker build -t abdelkader97/auth-service:$env.VERSION ."
+                           sh "docker build -t abdelkader97/auth-service:$VERSION ."
                         }
                     }
                 }
@@ -114,13 +114,13 @@ pipeline {
                         script {
                             sh """
                                 trivy image \
-                                    abdelkader97/auth-service:$env.VERSION \
+                                    abdelkader97/auth-service:$VERSION \
                                     --severity LOW,MEDIUM,HIGH \
                                     --exit-code 0 \
                                     --quiet \
                                     --format json -o trivy-image-medium-results.json 
                                 trivy image \
-                                    abdelkader97/auth-service:$env.VERSION \
+                                    abdelkader97/auth-service:$VERSION \
                                     --severity CRITICAL \
                                     --exit-code 1 \
                                     --quiet \
@@ -132,7 +132,7 @@ pipeline {
                 stage('Push Docker Image') {
                     steps {
                         withDockerRegistry(credentialsId: 'docker-hub-credentials', url: '') {
-                            sh "docker push abdelkader97/auth-service:$env.VERSION"
+                            sh "docker push abdelkader97/auth-service:$VERSION"
                         }
                     }
                 }
@@ -159,7 +159,7 @@ pipeline {
                                     -e DB_DIALECT=$DB_DIALECT \
                                     -e JWT_SECRET=$JWT_SECRET \
                                     -e JWT_EXPIRY=$JWT_EXPIRY \
-                                    -p 80:3000 -d abdelkader97/auth-service:$env.VERSION
+                                    -p 80:3000 -d abdelkader97/auth-service:$VERSION
 
                                 "
                                 """
