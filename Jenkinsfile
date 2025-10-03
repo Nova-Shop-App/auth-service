@@ -14,6 +14,9 @@ pipeline {
         JWT_EXPIRY="1h"
 
         SONAR_SCANNER_HOME = tool 'sonarqube-scanner-720'
+
+        VERSION = ""
+
     }
 
 
@@ -24,6 +27,7 @@ pipeline {
                               echo "Getting Version"
                               def version = sh(script: "node -p 'require(\"./package.json\").version'", returnStdout: true).trim()
                               echo "Version: ${version}"
+                              env.VERSION = version
                         }
                     }
                 }
@@ -100,7 +104,7 @@ pipeline {
                 stage('Build  Auth Service') {
                     steps {
                         script {
-                           sh "docker build -t abdelkader97/auth-service:${version} ."
+                           sh "docker build -t abdelkader97/auth-service:${env.VERSION} ."
                         }
                     }
                 }
@@ -110,13 +114,13 @@ pipeline {
                         script {
                             sh """
                                 trivy image \
-                                    abdelkader97/auth-service:${version} \
+                                    abdelkader97/auth-service:${env.VERSION} \
                                     --severity LOW,MEDIUM,HIGH \
                                     --exit-code 0 \
                                     --quiet \
                                     --format json -o trivy-image-medium-results.json 
                                 trivy image \
-                                    abdelkader97/auth-service:${version} \
+                                    abdelkader97/auth-service:${env.VERSION} \
                                     --severity CRITICAL \
                                     --exit-code 1 \
                                     --quiet \
@@ -128,7 +132,7 @@ pipeline {
                 stage('Push Docker Image') {
                     steps {
                         withDockerRegistry(credentialsId: 'docker-hub-credentials', url: '') {
-                            sh "docker push abdelkader97/auth-service:${version}"
+                            sh "docker push abdelkader97/auth-service:${env.VERSION}"
                         }
                     }
                 }
@@ -141,23 +145,25 @@ pipeline {
                         script {
                             sshagent(['azure-dev-deploy-vm']) {
                                 sh """
-                                    ssh -o StrictHostKeyChecking=no aek@172.172.224.233 \\
-                                    'if sudo docker ps -a | grep -q auth-service; then
-                                        echo "Container found. Stopping..."
-                                        sudo docker stop auth-service && sudo docker rm auth-service
-                                        echo "Container stopped and removed."
-                                    fi
-                                    sudo docker run --name auth-service \\
-                                        -e DB_HOST=${DB_HOST} \\
-                                        -e DB_USER=${DB_USER} \\
-                                        -e DB_PASSWORD=${DB_PASSWORD} \\
-                                        -e DB_NAME=${DB_NAME} \\
-                                        -e DB_DIALECT=${DB_DIALECT} \\
-                                        -e JWT_SECRET=${JWT_SECRET} \\
-                                        -e JWT_EXPIRY=${JWT_EXPIRY} \\
-                                        -p 80:3000 -d abdelkader97/auth-service:${version}'
+                                ssh -o StrictHostKeyChecking=no aek@172.172.224.233 "
+                                if sudo docker ps -a | grep -q 'auth-service'; then
+                                    echo 'Container found. Stopping...'
+                                    sudo docker stop auth-service && sudo docker rm auth-service
+                                    echo 'Container stopped and removed.'
+                                fi
+                                sudo docker run --name auth-service \
+                                    -e DB_HOST=$DB_HOST \
+                                    -e DB_USER=$DB_USER \
+                                    -e DB_PASSWORD=$DB_PASSWORD \
+                                    -e DB_NAME=$DB_NAME \
+                                    -e DB_DIALECT=$DB_DIALECT \
+                                    -e JWT_SECRET=$JWT_SECRET \
+                                    -e JWT_EXPIRY=$JWT_EXPIRY \
+                                    -p 80:3000 -d abdelkader97/auth-service:${env.VERSION}
+
+                                "
                                 """
-                            }
+                        }
 
                         }
                     }
