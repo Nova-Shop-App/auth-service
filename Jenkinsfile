@@ -14,9 +14,6 @@ pipeline {
         JWT_EXPIRY="1h"
 
         SONAR_SCANNER_HOME = tool 'sonarqube-scanner-720'
-
-        VERSION = ""
-
     }
 
 
