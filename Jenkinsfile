@@ -170,7 +170,7 @@ pipeline {
                         branch 'feature/*'
                     }
                     steps {
-                       sh "Integration Testing - AWS EC2"
+                       echo "Integration Testing - AWS EC2"
                     }
                 }
 
