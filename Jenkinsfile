@@ -131,10 +131,15 @@ pipeline {
 
 
 
-                stage('Deploy Auth Service') {
+                stage('Deploy on Azure Vm') {
                     steps {
                         script {
-                            echo "Deploying Auth Service"
+                            sshagent(['azure-dev-deploy-vm']) {
+                                sh '''
+                                ssh -o StrictHostKeyChecking=no aek@172.172.224.233 "sudo docker ps"
+                                '''
+                        }
+
                         }
                     }
                 }
