@@ -165,6 +165,20 @@ pipeline {
                         }
                     }
                 }
+                stage('Integration Testing - Azure VM') {
+                    when {
+                        branch 'feature/*'
+                    }
+                    steps {
+                       echo "Integration Testing - AWS EC2"
+                    }
+                }
+
+
+
+
+
+                
     }
     post {
         always {
