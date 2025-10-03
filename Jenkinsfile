@@ -140,7 +140,7 @@ pipeline {
                     steps {
                         script {
                             sshagent(['azure-dev-deploy-vm']) {
-                                sh """
+                                sh '''
                                 ssh -o StrictHostKeyChecking=no aek@172.172.224.233 "
                                 if sudo docker ps -a | grep -q 'auth-service'; then
                                     echo 'Container found. Stopping...'
@@ -158,7 +158,7 @@ pipeline {
                                     -p 80:3000 -d abdelkader97/auth-service:${version}
 
                                 "
-                                """
+                                '''
                         }
 
                         }
