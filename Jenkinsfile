@@ -133,10 +133,11 @@ pipeline {
                     }
                 }
             
-
-
-
                 stage('Deploy on Azure Vm') {
+                    when {
+                        branch 'feature/*'
+                    }
+
                     steps {
                         script {
                             sshagent(['azure-dev-deploy-vm']) {
