@@ -105,13 +105,13 @@ pipeline {
                         script {
                             sh '''
                                 trivy image \
-                                    --config /var/lib/jenkins/trivy/trivy.yaml abdelkader97/auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
+                                    abdelkader97/auth-service:latest \
                                     --severity LOW,MEDIUM,HIGH \
                                     --exit-code 0 \
                                     --quiet \
                                     --format json -o trivy-image-medium-results.json 
                                 trivy image \
-                                    --config /var/lib/jenkins/trivy/trivy.yaml abdelkader97/auth-service:latest --secret-config /var/lib/jenkins/trivy/trivy-secret.yaml --ignorefile /var/lib/jenkins/trivy/.trivyignore \
+                                    abdelkader97/auth-service:latest \
                                     --severity CRITICAL \
                                     --exit-code 1 \
                                     --quiet \
