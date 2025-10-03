@@ -100,7 +100,7 @@ pipeline {
                 stage('Build  Auth Service') {
                     steps {
                         script {
-                           sh "docker build -t abdelkader97/auth-service:latest ."
+                           sh "docker build -t abdelkader97/auth-service:${version} ."
                         }
                     }
                 }
@@ -108,27 +108,27 @@ pipeline {
                 stage('Trivy Vulnerability Scanner') {
                     steps {
                         script {
-                            sh '''
+                            sh """
                                 trivy image \
-                                    abdelkader97/auth-service:latest \
+                                    abdelkader97/auth-service:${version} \
                                     --severity LOW,MEDIUM,HIGH \
                                     --exit-code 0 \
                                     --quiet \
                                     --format json -o trivy-image-medium-results.json 
                                 trivy image \
-                                    abdelkader97/auth-service:latest \
+                                    abdelkader97/auth-service:${version} \
                                     --severity CRITICAL \
                                     --exit-code 1 \
                                     --quiet \
                                     --format json -o trivy-image-critical-results.json 
-                            '''
+                            """
                         }
                     }
                 }
                 stage('Push Docker Image') {
                     steps {
                         withDockerRegistry(credentialsId: 'docker-hub-credentials', url: '') {
-                            sh 'docker push abdelkader97/auth-service:latest'
+                            sh "docker push abdelkader97/auth-service:${version}"
                         }
                     }
                 }
@@ -140,7 +140,7 @@ pipeline {
                     steps {
                         script {
                             sshagent(['azure-dev-deploy-vm']) {
-                                sh '''
+                                sh """
                                 ssh -o StrictHostKeyChecking=no aek@172.172.224.233 "
                                 if sudo docker ps -a | grep -q 'auth-service'; then
                                     echo 'Container found. Stopping...'
@@ -155,10 +155,10 @@ pipeline {
                                     -e DB_DIALECT=$DB_DIALECT \
                                     -e JWT_SECRET=$JWT_SECRET \
                                     -e JWT_EXPIRY=$JWT_EXPIRY \
-                                    -p 3000:3000 -d abdelkader97/auth-service:latest
+                                    -p 80:3000 -d abdelkader97/auth-service:${version}
 
                                 "
-                                '''
+                                """
                         }
 
                         }
