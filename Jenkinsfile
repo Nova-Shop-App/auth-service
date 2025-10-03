@@ -4,6 +4,11 @@ pipeline {
         nodejs 'nodejs-18-19-1'
     }
     environment {
+        DB_HOST="ep-green-term-ab235syb-pooler.eu-west-2.aws.neon.tech"
+        DB_USER=credentials('postgres-db-username')
+        DB_PASSWORD=credentials('postgres-db-password')
+        DB_NAME="neondb"
+        DB_DIALECT="postgres"
 
         JWT_SECRET="your_jwt_secret_key"
         JWT_EXPIRY="1h"
@@ -136,7 +141,23 @@ pipeline {
                         script {
                             sshagent(['azure-dev-deploy-vm']) {
                                 sh '''
-                                ssh -o StrictHostKeyChecking=no aek@172.172.224.233 "sudo docker ps"
+                                ssh -o StrictHostKeyChecking=no aek@172.172.224.233 "
+                                if sudo docker ps -a | grep -q 'auth-service'; then
+                                    echo 'Container found. Stopping...'
+                                    sudo docker stop auth-service && sudo docker rm auth-service
+                                    echo 'Container stopped and removed.'
+                                fi
+                                sudo docker run --name auth-service \
+                                    -e DB_HOST=$DB_HOST \
+                                    -e DB_USER=$DB_USER \
+                                    -e DB_PASSWORD=$DB_PASSWORD \
+                                    -e DB_NAME=$DB_NAME \
+                                    -e DB_DIALECT=$DB_DIALECT \
+                                    -e JWT_SECRET=$JWT_SECRET \
+                                    -e JWT_EXPIRY=$JWT_EXPIRY \
+                                    -p 3000:3000 -d abdelkader97/auth-service:latest
+
+                                "
                                 '''
                         }
 

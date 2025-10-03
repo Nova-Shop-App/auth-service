@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="5" failures="0" errors="0" time="1.33">
-  <testsuite name="User Service" errors="0" failures="0" skipped="0" timestamp="2025-09-29T20:28:08" time="0.882" tests="2">
+<testsuites name="jest tests" tests="6" failures="0" errors="0" time="5.68">
+  <testsuite name="User Service" errors="0" failures="0" skipped="0" timestamp="2025-10-03T14:14:41" time="1.212" tests="2">
     <testcase classname="User Service should hash password correctly" name="User Service should hash password correctly" time="0.009">
     </testcase>
-    <testcase classname="User Service should verify password correctly" name="User Service should verify password correctly" time="0.001">
+    <testcase classname="User Service should verify password correctly" name="User Service should verify password correctly" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="JWT Token Functions" errors="0" failures="0" skipped="0" timestamp="2025-09-29T20:28:08" time="0.93" tests="3">
-    <testcase classname="JWT Token Functions should generate a valid JWT token" name="JWT Token Functions should generate a valid JWT token" time="0.012">
+  <testsuite name="JWT Token Functions" errors="0" failures="0" skipped="0" timestamp="2025-10-03T14:14:41" time="1.282" tests="3">
+    <testcase classname="JWT Token Functions should generate a valid JWT token" name="JWT Token Functions should generate a valid JWT token" time="0.019">
     </testcase>
-    <testcase classname="JWT Token Functions should verify token and return the correct payload" name="JWT Token Functions should verify token and return the correct payload" time="0.003">
+    <testcase classname="JWT Token Functions should verify token and return the correct payload" name="JWT Token Functions should verify token and return the correct payload" time="0.004">
     </testcase>
-    <testcase classname="JWT Token Functions should throw error if token is invalid" name="JWT Token Functions should throw error if token is invalid" time="0.008">
+    <testcase classname="JWT Token Functions should throw error if token is invalid" name="JWT Token Functions should throw error if token is invalid" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test Database Connection" errors="0" failures="0" skipped="0" timestamp="2025-10-03T14:14:41" time="4.785" tests="1">
+    <testcase classname="Test Database Connection should Database Get Connected" name="Test Database Connection should Database Get Connected" time="2.787">
     </testcase>
   </testsuite>
 </testsuites>
