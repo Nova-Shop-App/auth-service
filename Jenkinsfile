@@ -138,6 +138,7 @@ pipeline {
                         branch 'feature/*'
                     }
 
+
                     steps {
                         script {
                             sshagent(['azure-dev-deploy-vm']) {
