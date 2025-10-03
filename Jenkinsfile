@@ -138,7 +138,6 @@ pipeline {
                         branch 'feature/*'
                     }
 
-
                     steps {
                         script {
                             sshagent(['azure-dev-deploy-vm']) {
@@ -167,6 +166,9 @@ pipeline {
                     }
                 }
                 stage('Integration Testing - Azure VM') {
+                    when {
+                        branch 'feature/*'
+                    }
                     steps {
                        sh "Integration Testing - AWS EC2"
                     }
