@@ -166,6 +166,17 @@ pipeline {
                         }
                     }
                 }
+                stage('Integration Testing - Azure VM') {
+                    steps {
+                       sh "Integration Testing - AWS EC2"
+                    }
+                }
+
+
+
+
+
+                
     }
     post {
         always {
