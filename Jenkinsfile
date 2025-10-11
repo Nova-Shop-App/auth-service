@@ -173,6 +173,14 @@ pipeline {
                        echo "Integration Testing - AWS EC2"
                     }
                 }
+                stage('K8S update Image Tag') {
+                    when {
+                        branch 'feature/*'
+                    }
+                    steps {
+                       echo "Integration Testing - AWS EC2"
+                    }
+                }
 
 
 

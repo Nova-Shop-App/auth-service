@@ -17,7 +17,7 @@ const sequelize = new Sequelize({
     idle: 10000,
   },
   dialectOptions: {
-    ssl: process.env.DB_SSL_MODE || true,
+    ssl: process.env.DB_SSL_MODE || false,
   },
 });
 
