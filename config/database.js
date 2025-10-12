@@ -7,7 +7,7 @@ const sequelize = new Sequelize({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 5432,
+  port: process.env.DB_PORT,
   dialect: process.env.DB_DIALECT,
   logging: false,
   pool: {
@@ -17,7 +17,7 @@ const sequelize = new Sequelize({
     idle: 10000,
   },
   dialectOptions: {
-    ssl: process.env.DB_SSL_MODE || false,
+    ssl: process.env.DB_SSL_MODE,
   },
 });
 

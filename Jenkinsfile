@@ -133,54 +133,7 @@ pipeline {
                     }
                 }
             
-                stage('Deploy on Azure Vm') {
-                    when {
-                        branch 'feature/*'
-                    }
-
-                    steps {
-                        script {
-                            sshagent(['azure-dev-deploy-vm']) {
-                                sh """
-                                ssh -o StrictHostKeyChecking=no aek@172.172.224.233 "
-                                if sudo docker ps -a | grep -q 'auth-service'; then
-                                    echo 'Container found. Stopping...'
-                                    sudo docker stop auth-service && sudo docker rm auth-service
-                                    echo 'Container stopped and removed.'
-                                fi
-                                sudo docker run --name auth-service \
-                                    -e DB_HOST=$DB_HOST \
-                                    -e DB_USER=$DB_USER \
-                                    -e DB_PASSWORD=$DB_PASSWORD \
-                                    -e DB_NAME=$DB_NAME \
-                                    -e DB_DIALECT=$DB_DIALECT \
-                                    -e JWT_SECRET=$JWT_SECRET \
-                                    -e JWT_EXPIRY=$JWT_EXPIRY \
-                                    -p 80:3000 -d abdelkader97/auth-service:${env.VERSION}
-
-                                "
-                                """
-                        }
-
-                        }
-                    }
-                }
-                stage('Integration Testing - Azure VM') {
-                    when {
-                        branch 'feature/*'
-                    }
-                    steps {
-                       echo "Integration Testing - AWS EC2"
-                    }
-                }
-                stage('K8S update Image Tag') {
-                    when {
-                        branch 'feature/*'
-                    }
-                    steps {
-                       echo "Integration Testing - AWS EC2"
-                    }
-                }
+           
 
 
 
