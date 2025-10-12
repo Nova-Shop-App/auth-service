@@ -16,6 +16,9 @@ pipeline {
 
         SONAR_SCANNER_HOME = tool 'sonarqube-scanner-720'
     }
+// POSTGRES_USER=neondb_owner
+// POSTGRES_HOST=ep-green-term-ab235syb-pooler.eu-west-2.aws.neon.tech
+// POSTGRES_PASSWORD=npg_3qvjWa0xtoDF
 
 
     stages {
