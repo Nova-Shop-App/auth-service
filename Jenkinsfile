@@ -9,6 +9,7 @@ pipeline {
         DB_PASSWORD=credentials('postgres-db-password')
         DB_NAME="neondb"
         DB_DIALECT="postgres"
+        DB_SSL_MODE="true"
 
         JWT_SECRET="your_jwt_secret_key"
         JWT_EXPIRY="1h"
