@@ -145,7 +145,7 @@ pipeline {
                         
                         // Clone the repository with credentials
                         withCredentials([usernamePassword(
-                            credentialsId: 'githube-credentials',
+                            credentialsId: 'github-credentials',
                             usernameVariable: 'GIT_USERNAME',
                             passwordVariable: 'GIT_PASSWORD'
                         )]) {
@@ -155,7 +155,7 @@ pipeline {
                         // Update deployment file and push changes
                         dir('kubernetes-manifest') {
                             withCredentials([usernamePassword(
-                                credentialsId: 'githube-credentials',
+                                credentialsId: 'github-credentials',
                                 usernameVariable: 'GIT_USERNAME',
                                 passwordVariable: 'GIT_PASSWORD'
                             )]) {
