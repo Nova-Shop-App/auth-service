@@ -16,9 +16,6 @@ pipeline {
 
         SONAR_SCANNER_HOME = tool 'sonarqube-scanner-720'
     }
-// POSTGRES_USER=neondb_owner
-// POSTGRES_HOST=ep-green-term-ab235syb-pooler.eu-west-2.aws.neon.tech
-// POSTGRES_PASSWORD=npg_3qvjWa0xtoDF
 
 
     stages {
@@ -129,17 +126,54 @@ pipeline {
                 }
                 stage('Push Docker Image') {
                     steps {
-                        withDockerRegistry(credentialsId: 'docker-hub-credentials', url: '') {
-                            sh "docker push abdelkader97/auth-service:${env.VERSION}"
+                        script {
+                            withDockerRegistry(credentialsId: 'docker-hub-credentials', url: '') {
+                                sh "docker push abdelkader97/auth-service:${env.VERSION}"
+                            }
                         }
                     }
                 }
-                stage('Deploy to k8s') {
-                    steps {
-                       echo "Deploying to K8s"
 
+                stage('K8S Update Image Tag') {
+                    steps {
+                        script {
+                            // Clean up existing directory if it exists
+                            if (fileExists('kubernetes-manifest')) {
+                                sh 'rm -rf kubernetes-manifest'
+                            }
+                        }
+                        
+                        // Clone the repository with credentials
+                        withCredentials([usernamePassword(
+                            credentialsId: 'githube-credentials',
+                            usernameVariable: 'GIT_USERNAME',
+                            passwordVariable: 'GIT_PASSWORD'
+                        )]) {
+                            sh "git clone -b main https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Nova-Shop-App/kubernetes-manifest.git"
+                        }
+
+                        // Update deployment file and push changes
+                        dir('kubernetes-manifest') {
+                            withCredentials([usernamePassword(
+                                credentialsId: 'githube-credentials',
+                                usernameVariable: 'GIT_USERNAME',
+                                passwordVariable: 'GIT_PASSWORD'
+                            )]) {
+                                sh """
+                                    git config user.email "jenkins@example.com"
+                                    git config user.name "Jenkins CI"
+                                    
+                                    sed -i 's|image:.*abdelkader97/auth-service.*|image: abdelkader97/auth-service:${env.VERSION}|g' deployment.yml
+                                    
+                                    git add deployment.yml
+                                    git commit -m "Update Docker image to version ${env.VERSION}" || echo "No changes to commit"
+                                    git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Nova-Shop-App/kubernetes-manifest.git main
+                                """
+                            }
+                        }
                     }
                 }
+            
             
 
                 
