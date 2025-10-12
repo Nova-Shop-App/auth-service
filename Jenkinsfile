@@ -96,7 +96,6 @@ pipeline {
                         }
                     }
                 }
-
                 stage('Build  Auth Service') {
                     steps {
                         script {
@@ -129,6 +128,12 @@ pipeline {
                         withDockerRegistry(credentialsId: 'docker-hub-credentials', url: '') {
                             sh "docker push abdelkader97/auth-service:${env.VERSION}"
                         }
+                    }
+                }
+                stage('Deploy to k8s') {
+                    steps {
+                       echo "Deploying to K8s"
+
                     }
                 }
             
