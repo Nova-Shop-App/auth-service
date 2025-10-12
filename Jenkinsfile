@@ -32,7 +32,7 @@ pipeline {
                     steps {
                         script {
                             echo "Installing Dependencies"
-                            sh 'npm install --no-audit'
+                            sh 'npm ci --no-audit'
                         }
                     }
                 }
@@ -104,7 +104,6 @@ pipeline {
                         }
                     }
                 }
-// https://api.github.com
                 stage('Trivy Vulnerability Scanner') {
                     steps {
                         script {
