@@ -163,9 +163,9 @@ pipeline {
                                     git config user.email "jenkins@example.com"
                                     git config user.name "Jenkins CI"
                                     
-                                    sed -i 's|image:.*abdelkader97/auth-service.*|image: abdelkader97/auth-service:${env.VERSION}|g' deployment.yml
+                                    sed -i 's|image:.*abdelkader97/auth-service.*|image: abdelkader97/auth-service:${env.VERSION}|g' deployment.yaml
                                     
-                                    git add deployment.yml
+                                    git add deployment.yaml
                                     git commit -m "Update Docker image to version ${env.VERSION}" || echo "No changes to commit"
                                     git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Nova-Shop-App/kubernetes-manifest.git main
                                 """
