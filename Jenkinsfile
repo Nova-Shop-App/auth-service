@@ -133,7 +133,6 @@ pipeline {
                         }
                     }
                 }
-
                 stage('K8S Update Image Tag') {
                     steps {
                         script {
