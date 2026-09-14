@@ -33,7 +33,9 @@ stages:
         - script: npm ci
           displayName: 'Install Dependencies'
 
-
+        # - task: WhiteSource@21
+        #   inputs:
+        #     cwd: '$(System.DefaultWorkingDirectory)'
 
 - stage: Push_with_Feature_Branch
   displayName: 'Push with Feature Branch'
