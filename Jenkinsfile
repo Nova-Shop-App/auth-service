@@ -74,8 +74,7 @@ pipeline {
                 stage('Run Tests') {
                     steps {
                         script {
-                            sh 'npm run test'
-                            
+                            sh 'npm run test'   
                         }
                         junit(allowEmptyResults: true, testResults: 'junit.xml')
 
@@ -166,7 +165,7 @@ pipeline {
                                     sed -i 's|image:.*abdelkader97/auth-service.*|image: abdelkader97/auth-service:${env.VERSION}|g' deployment.yaml
                                     
                                     git add deployment.yaml
-                                    git commit -m "Update Docker image to version ${env.VERSION}" || echo "No changes to commit"
+                                    git commit -m "🚀 CI: Deploy auth-service v${env.VERSION} (build #${env.BUILD_NUMBER})"
                                     git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Nova-Shop-App/kubernetes-manifest.git main
                                 """
                             }
