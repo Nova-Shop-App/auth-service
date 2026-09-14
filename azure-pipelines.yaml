@@ -37,3 +37,20 @@ stages:
         #   inputs:
         #     cwd: '$(System.DefaultWorkingDirectory)'
 
+- stage: Push_with_Feature_Branch
+  displayName: 'Push with Feature Branch'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/')
+  jobs:
+    - job: Test_Branch
+      displayName: 'Branch Job / Build and Test '
+      steps: 
+        - task: UseNode@1
+          inputs:
+            version: '22.x'
+
+        - script: npm ci      
+          displayName: 'Install Dependencies (including dev)'
+
+        - script: | 
+            npm test
+          displayName: 'Branch / Run Tests with Coverage'
