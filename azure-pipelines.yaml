@@ -39,5 +39,5 @@ stages:
             cwd: '$(System.DefaultWorkingDirectory)'
 
         - script: | 
-            npm test:unit
+            npm run test:unit
           displayName: 'Branch / Run Tests with Coverage'
