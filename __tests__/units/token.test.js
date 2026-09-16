@@ -1,4 +1,4 @@
-import { generateTokens, verifyToken } from "../utils/handleToken.js";
+import { generateTokens, verifyToken } from "../../utils/handleToken.js";
 import dotenv from "dotenv";
 
 dotenv.config();

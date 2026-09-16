@@ -19,23 +19,6 @@ variables:
   - group: auth-variables
 
 stages:
-- stage: Install_Node_JS
-  displayName: 'Install Node Js and dependencies'
-  jobs:
-    - job:  Install_Node_JS
-      displayName: 'Install Node Js and dependencies'
-      steps:
-        - task: UseNode@1
-          inputs:
-            version: '22.x'
-          displayName: 'Install Node.js'
-
-        - script: npm ci
-          displayName: 'Install Dependencies'
-
-        # - task: WhiteSource@21
-        #   inputs:
-        #     cwd: '$(System.DefaultWorkingDirectory)'
 
 - stage: Push_with_Feature_Branch
   displayName: 'Push with Feature Branch'
@@ -51,6 +34,10 @@ stages:
         - script: npm ci      
           displayName: 'Install Dependencies (including dev)'
 
+        - task: WhiteSource@21
+          inputs:
+            cwd: '$(System.DefaultWorkingDirectory)'
+
         - script: | 
-            npm test
+            npm run test:unit
           displayName: 'Branch / Run Tests with Coverage'
