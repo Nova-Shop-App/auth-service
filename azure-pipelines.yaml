@@ -41,3 +41,21 @@ stages:
         - script: | 
             npm run test:unit
           displayName: 'Branch / Run Tests with Coverage'
+
+
+        - task: PublishCodeCoverageResults@2
+          displayName: 'Branch / Publish Code Coverage Results'
+          condition: always()
+          inputs:
+            summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/clover.xml'
+            reportDirectory: '$(System.DefaultWorkingDirectory)/coverage/unit/lcov-report'
+
+        # - task: PublishTestResults@2
+        #   displayName: 'Branch / Publish Unit Test Results'
+        #   condition: always()
+        #   inputs:
+        #     testResultsFormat: JUnit
+        #     testResultsFiles: '$(System.DefaultWorkingDirectory)/coverage/junit/unit/junit.xml'
+        #     testRunTitle: 'Jest Unit Tests — $(Build.SourceBranchName)'
+        #     mergeTestResults: false
+        #     failTaskOnFailedTests: true
