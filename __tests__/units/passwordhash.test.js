@@ -1,4 +1,4 @@
-import { hashPassword, verifyPassword } from "../utils/handlePassword.js";
+import { hashPassword, verifyPassword } from "../../utils/handlePassword.js";
 
 describe("User Service", () => {
   it("should hash password correctly", async () => {
